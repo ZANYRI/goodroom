@@ -125,7 +125,7 @@ goodroom/
 │   │   ├── EventLandingView.tsx    # Shared architectural landing template for all 6 event pages
 │   │   ├── FaqAccordion.tsx        # Accessible collapsible FAQ list
 │   │   ├── FloatingMessengers.tsx  # Floating quick-contact speed dial (Call, Telegram, WhatsApp, Max)
-│   │   ├── Footer.tsx              # Site footer with navigation, ThemeToggle, and IP requisites
+│   │   ├── Footer.tsx              # Site footer with navigation, contacts, and IP requisites
 │   │   ├── Header.tsx              # Sticky glass header with dropdown, ThemeToggle, and mobile drawer
 │   │   ├── HeroQuickForm.tsx       # Above-the-fold phone capture & instant booking trigger
 │   │   ├── Icons.tsx               # Unified icon registry (@tabler/icons-react + messenger logos)
@@ -206,7 +206,7 @@ Pure `#000000` and `#ffffff` are intentionally avoided. Every surface, border, a
 ### Zero-FOUC Theme Initialization & Reactive Store
 1. **Pre-Paint Script (`src/app/layout.tsx`)**: An inline synchronous `themeInitScript` inside `<head>` reads `localStorage.getItem('goodroom-theme')` before first paint and sets `data-theme="light"` or `data-theme="dark"` on `<html>`, preventing any Flash of Unstyled Content (FOUC).
 2. **External Store (`src/lib/theme.ts`)**: `useTheme()` wraps React 19 `useSyncExternalStore` with a `MutationObserver` on `document.documentElement` (`data-theme`) and cross-tab `window` `storage` synchronization.
-3. **Segmented Theme Switcher (`src/components/ThemeToggle.tsx`)**: Tactile segmented pill (`[ 🌙 Темная | ☀️ Светлая ]` plus `compact` icon mode for narrow mobile top bars), available in the desktop header, mobile sticky header, mobile drawer (`Header.tsx`), and `Footer.tsx`.
+3. **Segmented Theme Switcher (`src/components/ThemeToggle.tsx`)**: Tactile segmented pill (`[ 🌙 Темная | ☀️ Светлая ]` plus `compact` icon mode for narrow mobile top bars), available in the desktop header, mobile sticky header, and mobile drawer (`Header.tsx`).
 4. **Theme-Aware Yandex Maps (`src/components/ContactsMapSection.tsx`)**: Subscribes to `useTheme()` and passes `&theme=dark` or `&theme=light` (`key={theme}`) to Yandex Map Widget v1 (`yandex.ru/map-widget/v1/`), dynamically switching vector map tiles and floating controls across every page on the site.
 
 ### Component Reference (`src/components/`)
@@ -215,7 +215,7 @@ Pure `#000000` and `#ffffff` are intentionally avoided. Every surface, border, a
   - `mode: "booking"` — Interactive booking calculator (Weekday `1,500 ₽/h` min 3h vs. Weekend `2,500 ₽/h` min 5h selector, hour stepper `−/+`, live estimated total in RUB, preferred date picker).
 - **`OpenModalButton.tsx`** — Lightweight Client Component trigger allowing Server Components (`page.tsx`, blog posts, contacts) to open the lead modal while keeping page layouts purely server-rendered.
 - **`Header.tsx`** — Sticky frosted-glass navigation bar with desktop "Formats" dropdown, amenities/blog/contacts links, `ThemeToggle`, click-to-call phone number, CTA button, and mobile drawer.
-- **`Footer.tsx`** — Architectural site footer featuring venue summary, `ThemeToggle`, legal entity details (IP, INN, OGRNIP), event links, and legal navigation.
+- **`Footer.tsx`** — Architectural site footer featuring venue summary, legal entity details (IP, INN, OGRNIP), event links, and legal navigation.
 - **`ThemeToggle.tsx`** — Segmented Dark / Light theme switcher (`compact` and labeled modes).
 - **`YandexReviewsWidget.tsx`** — Natively styled Yandex Maps reviews feed built with `--surface` / `--accent` tokens, `Unbounded` `4,8` aggregate score, star ratings, monogram avatars, expandable long reviews, `.reviews-scroll` thin scrollbar, and *"Leave a Review"* CTA bar.
 - **`ContactsMapSection.tsx`** — Contact block with callback trigger, messenger buttons, and theme-aware HTTPS Yandex Map iframe (`theme=dark` / `theme=light`).
