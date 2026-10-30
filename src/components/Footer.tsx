@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { EVENT_NAV_ITEMS, SITE_CONFIG } from "@/data/site";
 import { LOFT_PRODUCT } from "@/data/home";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import {
   MaxMessengerIcon,
   TelegramIcon,
@@ -149,10 +148,6 @@ export function Footer() {
               >
                 <MaxMessengerIcon className="h-5 w-5" />
               </a>
-            </div>
-
-            <div className="mt-5">
-              <ThemeToggle />
             </div>
           </div>
         </div>
