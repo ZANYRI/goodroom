@@ -8,152 +8,169 @@ import { EVENT_NAV_ITEMS } from "@/data/site";
 import { useLeadModal } from "@/components/ModalProvider";
 import { PhotoGalleryGrid } from "@/components/PhotoGalleryGrid";
 import { ContactsMapSection } from "@/components/ContactsMapSection";
+import { ArrowRightIcon, CheckIcon } from "@/components/Icons";
 
 export function EventLandingView({ data }: { data: EventPageData }) {
   const { openLeadModal } = useLeadModal();
 
   return (
-    <main>
-      {/* 1. Event Hero Section */}
-      <section className="relative overflow-hidden bg-black py-20 text-white sm:py-28 lg:py-32">
-        <img
-          src={data.heroImage}
-          alt={data.heroTitle}
-          fetchPriority="high"
-          className="absolute inset-0 h-full w-full object-cover object-center opacity-45"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/65 to-black/50" />
+    <main className="bg-canvas text-ink">
+      {/* 1. Asymmetric Split Event Hero (Page Theme Lock + Max 4 Hero Text Elements) */}
+      <section className="mx-auto max-w-7xl px-4 pt-10 pb-14 sm:px-6 lg:pt-16 lg:pb-20">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.04fr_0.96fr] lg:gap-14">
+          <div>
+            {data.heroBadge && (
+              <p className="text-xs font-bold tracking-[0.14em] text-accent-text uppercase">
+                {data.heroBadge}
+              </p>
+            )}
 
-        <div className="relative z-10 mx-auto max-w-[1100px] px-4 text-center sm:px-6">
-          {data.heroBadge && (
-            <span className="inline-block rounded-full border border-[#43ff57]/40 bg-black/70 px-4 py-1.5 text-xs font-bold tracking-wider text-[#43ff57] uppercase backdrop-blur-xs">
-              {data.heroBadge}
-            </span>
-          )}
+            <h1 className="mt-4 font-display text-3xl leading-[1.15] font-semibold text-ink sm:text-4xl lg:text-[44px]">
+              {data.heroTitle}
+            </h1>
 
-          <h1 className="mx-auto mt-5 max-w-4xl text-3xl leading-[1.18] font-bold text-white sm:text-5xl lg:text-[54px]">
-            {data.heroTitle}
-          </h1>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-muted sm:text-lg">
+              {data.heroSubtitle}
+            </p>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/85 sm:text-xl">
-            {data.heroSubtitle}
-          </p>
-
-          <div className="mt-9 flex flex-col items-center justify-center gap-3.5 sm:flex-row">
-            <button
-              type="button"
-              onClick={() =>
-                openLeadModal({
-                  mode: "booking",
-                  source: `Страница: ${data.navLabel}`,
-                })
-              }
-              className="shimmer-btn inline-flex h-14 w-full cursor-pointer items-center justify-center rounded-[10px] bg-[#43ff57] px-9 text-[16px] font-bold text-black transition hover:bg-[#33d744] hover:text-white sm:w-auto"
-            >
-              Забронировать
-            </button>
-
-            <Link
-              href={LOFT_PRODUCT.url}
-              className="inline-flex h-14 w-full items-center justify-center rounded-[10px] border border-white/25 bg-white/10 px-7 text-[15px] font-bold text-white backdrop-blur-xs transition hover:border-[#43ff57] hover:text-[#43ff57] sm:w-auto"
-            >
-              Цены: от 1 500 ₽/час
-            </Link>
-          </div>
-
-          {/* Highlights Pills */}
-          <div className="mx-auto mt-11 grid max-w-4xl grid-cols-1 gap-3 text-left sm:grid-cols-3">
-            {data.highlights.map((hl) => (
-              <div
-                key={hl}
-                className="flex items-start gap-2.5 rounded-[12px] border border-white/12 bg-black/65 px-4 py-3.5 text-xs leading-relaxed text-white/90 backdrop-blur-xs sm:text-sm"
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <button
+                type="button"
+                onClick={() =>
+                  openLeadModal({
+                    mode: "booking",
+                    source: `Страница формата: ${data.navLabel}`,
+                  })
+                }
+                className="btn-primary h-13 px-7 text-sm"
               >
-                <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#43ff57]" />
-                <span>{hl}</span>
-              </div>
-            ))}
+                <span>Рассчитать и забронировать</span>
+                <ArrowRightIcon className="h-4 w-4" />
+              </button>
+
+              <Link
+                href={LOFT_PRODUCT.url}
+                className="btn-secondary h-13 px-6 text-sm"
+              >
+                Тарифы: от 1 500 ₽/час
+              </Link>
+            </div>
           </div>
+
+          <div className="overflow-hidden rounded-2xl border border-hairline bg-surface">
+            <img
+              src={data.heroImage}
+              alt={data.heroTitle}
+              fetchPriority="high"
+              className="aspect-[4/3] h-full w-full object-cover"
+            />
+          </div>
+        </div>
+
+        {/* Highlights Strip Under Hero */}
+        <div className="mt-10 grid grid-cols-1 gap-4 rounded-2xl border border-hairline bg-surface p-5 sm:p-6 md:grid-cols-3">
+          {data.highlights.map((hl) => (
+            <div key={hl} className="flex items-start gap-3">
+              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent-text">
+                <CheckIcon className="h-3.5 w-3.5" />
+              </span>
+              <p className="text-sm leading-relaxed font-medium text-ink">
+                {hl}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* 2. Event Gallery */}
-      <section className="bg-white py-16 sm:py-22">
-        <div className="mx-auto max-w-[1280px] px-4 sm:px-6">
-          <div className="mb-10 text-center sm:mb-14">
-            <h2 className="text-3xl font-bold text-black sm:text-[42px]">
+      {/* 2. Event Photo Mosaic */}
+      <section className="border-t border-hairline py-18 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="mb-10 max-w-2xl">
+            <h2 className="font-display text-2xl font-semibold text-ink sm:text-4xl">
               {data.galleryTitle}
             </h2>
+            <p className="mt-3 text-sm leading-relaxed text-ink-muted sm:text-base">
+              Нажмите на любую фотографию, чтобы рассмотреть зонирование и
+              световые сценарии зала в полном размере.
+            </p>
           </div>
 
-          <PhotoGalleryGrid images={data.gallery} />
+          <PhotoGalleryGrid images={data.gallery} mosaic />
         </div>
       </section>
 
-      {/* 3. What's Included Strip */}
-      <section className="bg-[#f3f3f3] py-16 sm:py-20">
-        <div className="mx-auto max-w-[1280px] px-4 sm:px-6">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-black sm:text-4xl">
-              Всё включено в стоимость аренды
-            </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-sm text-black/70 sm:text-base">
-              100 м² стильного пространства до 18 гостей • Будни от 1 500 ₽/ч •
-              Выходные (ПТ–ВС) 2 500 ₽/ч
-            </p>
-          </div>
+      {/* 3. Technical Rider & Private Viewing */}
+      <section className="border-t border-hairline bg-surface py-18 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
+            <div>
+              <h2 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
+                Включено в базовую ставку аренды
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-ink-muted sm:text-base">
+                100 м² закрытого пространства до 18-25 гостей. Будни (ПН-ЧТ) от
+                1 500 ₽/час, выходные (ПТ-ВС) 2 500 ₽/час. Пробковый сбор 0 ₽.
+              </p>
 
-          <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-            {INCLUDED_FEATURES.map((feat) => (
-              <div
-                key={feat.title}
-                className="flex flex-col items-center rounded-[14px] bg-white p-5 text-center shadow-xs"
-              >
-                <img
-                  src={feat.icon}
-                  alt=""
-                  aria-hidden="true"
-                  loading="lazy"
-                  className="h-11 w-11 object-contain"
-                />
-                <span className="mt-3.5 text-xs font-bold text-black sm:text-sm">
-                  {feat.title}
-                </span>
+              <div className="mt-7">
+                <button
+                  type="button"
+                  onClick={() =>
+                    openLeadModal({
+                      mode: "callback",
+                      source: `Запись на просмотр (${data.navLabel})`,
+                    })
+                  }
+                  className="btn-secondary h-12 px-6 text-sm"
+                >
+                  Записаться на просмотр зала
+                </button>
               </div>
-            ))}
+            </div>
+
+            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+              {INCLUDED_FEATURES.map((feat) => (
+                <div
+                  key={feat.title}
+                  className="flex items-start gap-3.5 rounded-2xl border border-hairline bg-canvas p-4"
+                >
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-surface-elevated p-2.5">
+                    <img
+                      src={feat.icon}
+                      alt=""
+                      aria-hidden="true"
+                      loading="lazy"
+                      className="icon-adaptive h-full w-full object-contain"
+                    />
+                  </span>
+                  <div>
+                    <p className="text-sm font-bold text-ink">{feat.title}</p>
+                    <p className="mt-1 text-xs leading-relaxed text-ink-muted">
+                      {feat.detail}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="mt-10 text-center">
-            <button
-              type="button"
-              onClick={() =>
-                openLeadModal({
-                  mode: "callback",
-                  source: `Запись на просмотр (${data.navLabel})`,
-                })
-              }
-              className="inline-flex h-13 cursor-pointer items-center justify-center rounded-[10px] bg-black px-8 text-[15px] font-bold text-[#43ff57] transition hover:bg-[#43ff57] hover:text-black"
-            >
-              Записаться на бесплатный просмотр лофта
-            </button>
-          </div>
-
-          {/* Other Event Formats Cross-links */}
-          <div className="mt-12 border-t border-black/10 pt-8 text-center">
-            <p className="text-xs font-bold tracking-wider text-black/50 uppercase">
-              Другие форматы мероприятий в «ШУМНО»
+          {/* Cross-Links to Other Formats */}
+          <div className="mt-14 border-t border-hairline pt-8">
+            <p className="text-xs font-semibold text-ink-subtle">
+              Другие сценарии в пространстве «ШУМНО»
             </p>
-            <div className="mt-4 flex flex-wrap justify-center gap-2">
-              {EVENT_NAV_ITEMS.filter((item) => item.href !== `/${data.slug}`).map(
-                (item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-bold text-black transition hover:border-black hover:bg-black hover:text-[#43ff57]"
-                  >
-                    {item.label}
-                  </Link>
-                )
-              )}
+            <div className="mt-3.5 flex flex-wrap gap-2">
+              {EVENT_NAV_ITEMS.filter(
+                (item) => item.href !== `/${data.slug}`
+              ).map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="rounded-xl border border-hairline bg-canvas px-4 py-2 text-xs font-semibold text-ink transition hover:border-accent-text hover:text-accent-text"
+                >
+                  {item.label}
+                </Link>
+              ))}
             </div>
           </div>
         </div>

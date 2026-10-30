@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { EVENT_NAV_ITEMS, SITE_CONFIG } from "@/data/site";
+import { LOFT_PRODUCT } from "@/data/home";
 import {
   MaxMessengerIcon,
   TelegramIcon,
@@ -9,41 +10,46 @@ import {
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-black text-white">
-      <div className="mx-auto max-w-[1280px] px-4 py-12 sm:px-6">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-[1.2fr_1fr_1fr]">
-          {/* Col 1: Brand & Legal */}
+    <footer className="border-t border-hairline bg-surface text-ink">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-[1.35fr_0.9fr_0.85fr_1fr]">
+          {/* Col 1: Brand & Spatial Summary */}
           <div>
-            <Link href="/" className="inline-block">
+            <Link
+              href="/"
+              className="inline-flex items-center rounded-xl bg-[#08090c] px-2.5 py-1.5 ring-1 ring-white/10"
+            >
               <img
                 src="/images/brand/logo.png"
                 alt={SITE_CONFIG.brandAlt}
                 loading="lazy"
-                className="h-12 w-auto object-contain"
+                className="h-11 w-auto object-contain"
               />
             </Link>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/70">
-              Пространство «ШУМНО» — стильный приватный лофт 100 м² в центре
-              Пятигорска для вечеринок, дней рождения, свадеб и корпоративов.
-              Можно шуметь 24/7.
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-muted">
+              Приватное лофт-пространство 100 м² в Пятигорске для вечеринок,
+              дней рождения, камерных свадеб и корпоративов. Работаем 24/7 без
+              пробкового сбора.
             </p>
-            <div className="mt-5 space-y-1 text-xs text-white/55">
+            <div className="mt-5 space-y-1 text-xs text-ink-subtle">
               <p>{SITE_CONFIG.legalName}</p>
-              <p>ИНН {SITE_CONFIG.inn} • ОГРНИП {SITE_CONFIG.ogrnip}</p>
+              <p className="font-mono tabular-nums">
+                ИНН {SITE_CONFIG.inn} · ОГРНИП {SITE_CONFIG.ogrnip}
+              </p>
             </div>
           </div>
 
           {/* Col 2: Event Formats */}
           <div>
-            <h3 className="text-sm font-bold tracking-wider text-[#43ff57] uppercase">
-              Мероприятия
-            </h3>
-            <ul className="mt-4 grid grid-cols-1 gap-2.5 text-sm sm:grid-cols-2 md:grid-cols-1">
+            <p className="font-display text-sm font-semibold text-ink">
+              Форматы событий
+            </p>
+            <ul className="mt-4 space-y-2.5 text-sm">
               {EVENT_NAV_ITEMS.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-white/80 transition hover:text-[#43ff57]"
+                    className="text-ink-muted transition hover:text-accent-text"
                   >
                     {item.label}
                   </Link>
@@ -52,34 +58,75 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Col 3: Contacts & Legal Links */}
+          {/* Col 3: Navigation & Legal */}
           <div>
-            <h3 className="text-sm font-bold tracking-wider text-[#43ff57] uppercase">
-              Контакты и документы
-            </h3>
-            <div className="mt-4 space-y-2.5 text-sm">
+            <p className="font-display text-sm font-semibold text-ink">
+              Навигация
+            </p>
+            <ul className="mt-4 space-y-2.5 text-sm">
+              <li>
+                <Link
+                  href={LOFT_PRODUCT.url}
+                  className="text-ink-muted transition hover:text-accent-text"
+                >
+                  О площадке и оснащении
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/blog"
+                  className="text-ink-muted transition hover:text-accent-text"
+                >
+                  Журнал о событиях
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contacts"
+                  className="text-ink-muted transition hover:text-accent-text"
+                >
+                  Контакты и схема проезда
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/offer"
+                  className="text-ink-muted transition hover:text-accent-text"
+                >
+                  Публичная оферта
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 4: Direct Contacts */}
+          <div>
+            <p className="font-display text-sm font-semibold text-ink">
+              Связь и адрес
+            </p>
+            <div className="mt-4 space-y-2 text-sm">
               <a
                 href={SITE_CONFIG.phoneHref}
-                className="block text-lg font-bold text-white transition hover:text-[#43ff57]"
+                className="block font-mono text-lg font-bold text-ink tabular-nums transition hover:text-accent-text"
               >
                 {SITE_CONFIG.phoneDisplay}
               </a>
               <a
                 href={SITE_CONFIG.emailHref}
-                className="block text-white/80 transition hover:text-[#43ff57]"
+                className="block text-ink-muted transition hover:text-accent-text"
               >
                 {SITE_CONFIG.email}
               </a>
-              <p className="text-white/70">{SITE_CONFIG.address}</p>
+              <p className="text-ink-muted">{SITE_CONFIG.address}</p>
             </div>
 
-            <div className="mt-5 flex items-center gap-2.5">
+            <div className="mt-5 flex items-center gap-2">
               <a
                 href={SITE_CONFIG.telegramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Telegram"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-[#43ff57] hover:text-black"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-hairline bg-surface-elevated text-ink transition hover:border-accent-text hover:text-accent-text"
               >
                 <TelegramIcon className="h-5 w-5" />
               </a>
@@ -88,7 +135,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-[#43ff57] hover:text-black"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-hairline bg-surface-elevated text-ink transition hover:border-accent-text hover:text-accent-text"
               >
                 <WhatsAppIcon className="h-5 w-5" />
               </a>
@@ -97,31 +144,10 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Max"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-[#43ff57] hover:text-black"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-hairline bg-surface-elevated text-ink transition hover:border-accent-text hover:text-accent-text"
               >
                 <MaxMessengerIcon className="h-5 w-5" />
               </a>
-            </div>
-
-            <div className="mt-6 flex flex-wrap gap-4 text-xs text-white/65">
-              <Link
-                href="/offer"
-                className="underline decoration-white/30 underline-offset-4 transition hover:text-[#43ff57]"
-              >
-                Публичная оферта
-              </Link>
-              <Link
-                href="/blog"
-                className="underline decoration-white/30 underline-offset-4 transition hover:text-[#43ff57]"
-              >
-                Блог
-              </Link>
-              <Link
-                href="/contacts"
-                className="underline decoration-white/30 underline-offset-4 transition hover:text-[#43ff57]"
-              >
-                Контакты
-              </Link>
             </div>
           </div>
         </div>

@@ -14,12 +14,12 @@ interface GalleryImage {
 
 interface PhotoGalleryGridProps {
   images: GalleryImage[];
-  dark?: boolean;
+  mosaic?: boolean;
 }
 
 export function PhotoGalleryGrid({
   images,
-  dark = false,
+  mosaic = false,
 }: PhotoGalleryGridProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
@@ -52,24 +52,31 @@ export function PhotoGalleryGrid({
   return (
     <>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {images.map((img, index) => (
-          <button
-            key={img.src}
-            type="button"
-            onClick={() => setActiveIndex(index)}
-            className={`group relative aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-[15px] focus-visible:outline-2 focus-visible:outline-[#43ff57] ${
-              dark ? "bg-white/5" : "bg-black/5"
-            }`}
-          >
-            <img
-              src={img.src}
-              alt={img.alt}
-              loading="lazy"
-              className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-black/0 transition group-hover:bg-black/20" />
-          </button>
-        ))}
+        {images.map((img, index) => {
+          const isLead = mosaic && index === 0;
+          const isWide = mosaic && index === 5;
+          return (
+            <button
+              key={`${img.src}-${index}`}
+              type="button"
+              onClick={() => setActiveIndex(index)}
+              className={`group relative w-full cursor-zoom-in overflow-hidden rounded-2xl border border-hairline bg-surface focus-visible:outline-2 focus-visible:outline-accent ${
+                isLead
+                  ? "aspect-[4/3] lg:col-span-2 lg:row-span-2 lg:aspect-auto lg:min-h-[380px]"
+                  : isWide
+                    ? "aspect-[4/3] lg:col-span-2 lg:aspect-[16/9]"
+                    : "aspect-[4/3]"
+              }`}
+            >
+              <img
+                src={img.src}
+                alt={img.alt}
+                loading="lazy"
+                className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+              />
+            </button>
+          );
+        })}
       </div>
 
       {activeIndex !== null && (
@@ -86,9 +93,9 @@ export function PhotoGalleryGrid({
             type="button"
             onClick={() => setActiveIndex(null)}
             aria-label="Закрыть просмотр"
-            className="absolute top-4 right-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-[#43ff57] hover:text-black"
+            className="absolute top-4 right-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl bg-white/10 text-white transition hover:bg-accent hover:text-accent-ink"
           >
-            <CloseIcon className="h-6 w-6" />
+            <CloseIcon className="h-5 w-5" />
           </button>
 
           <button
@@ -99,19 +106,19 @@ export function PhotoGalleryGrid({
               )
             }
             aria-label="Предыдущее фото"
-            className="absolute top-1/2 left-4 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/15 text-white transition hover:bg-[#43ff57] hover:text-black"
+            className="absolute top-1/2 left-4 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-xl bg-white/15 text-white transition hover:bg-accent hover:text-accent-ink"
           >
-            <ArrowLeftIcon className="h-6 w-6" />
+            <ArrowLeftIcon className="h-5 w-5" />
           </button>
 
           <figure className="max-h-[86vh] max-w-5xl text-center">
             <img
               src={images[activeIndex].src}
               alt={images[activeIndex].alt}
-              className="max-h-[78vh] w-auto rounded-[14px] object-contain shadow-2xl"
+              className="max-h-[78vh] w-auto rounded-2xl object-contain shadow-2xl"
             />
             <figcaption className="mt-3 text-sm text-white/80">
-              {images[activeIndex].alt} ({activeIndex + 1} / {images.length})
+              {images[activeIndex].alt}
             </figcaption>
           </figure>
 
@@ -119,9 +126,9 @@ export function PhotoGalleryGrid({
             type="button"
             onClick={() => setActiveIndex((activeIndex + 1) % images.length)}
             aria-label="Следующее фото"
-            className="absolute top-1/2 right-4 flex h-12 w-12 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/15 text-white transition hover:bg-[#43ff57] hover:text-black"
+            className="absolute top-1/2 right-4 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-xl bg-white/15 text-white transition hover:bg-accent hover:text-accent-ink"
           >
-            <ArrowRightIcon className="h-6 w-6" />
+            <ArrowRightIcon className="h-5 w-5" />
           </button>
         </div>
       )}

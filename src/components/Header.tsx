@@ -4,11 +4,14 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { EVENT_NAV_ITEMS, SITE_CONFIG } from "@/data/site";
+import { LOFT_PRODUCT } from "@/data/home";
 import { useLeadModal } from "@/components/ModalProvider";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import {
   ChevronDownIcon,
   CloseIcon,
   MaxMessengerIcon,
+  MenuIcon,
   TelegramIcon,
   WhatsAppIcon,
 } from "@/components/Icons";
@@ -37,22 +40,24 @@ export function Header() {
   const isEventActive = EVENT_NAV_ITEMS.some((item) => item.href === pathname);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-black text-white">
-      <div className="mx-auto flex h-[74px] max-w-[1280px] items-center justify-between gap-4 px-4 sm:px-6">
-        {/* Left: Brand Logo */}
+    <header className="surface-glass sticky top-0 z-40 w-full border-b border-hairline">
+      <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+        {/* Left: Brand Emblem */}
         <Link
           href="/"
           onClick={() => setMobileOpen(false)}
-          className="flex shrink-0 items-center gap-3 focus-visible:outline-2 focus-visible:outline-[#43ff57]"
+          className="flex shrink-0 items-center gap-3 focus-visible:outline-2 focus-visible:outline-accent"
         >
-          <img
-            src="/images/brand/logo.png"
-            alt={SITE_CONFIG.brandAlt}
-            className="h-11 w-auto object-contain sm:h-12"
-          />
+          <span className="flex items-center rounded-xl bg-[#08090c] px-2 py-1 ring-1 ring-white/10">
+            <img
+              src="/images/brand/logo.png"
+              alt={SITE_CONFIG.brandAlt}
+              className="h-10 w-auto object-contain sm:h-11"
+            />
+          </span>
         </Link>
 
-        {/* Center: Desktop Navigation */}
+        {/* Center: Single-line Architectural Navigation */}
         <nav
           aria-label="Основная навигация"
           className="hidden items-center gap-7 lg:flex"
@@ -68,23 +73,23 @@ export function Header() {
               aria-expanded={dropdownOpen}
               aria-haspopup="true"
               onClick={() => setDropdownOpen((v) => !v)}
-              className={`inline-flex cursor-pointer items-center gap-1.5 py-2 text-[15px] font-semibold transition focus-visible:outline-2 focus-visible:outline-[#43ff57] ${
+              className={`inline-flex cursor-pointer items-center gap-1.5 py-2 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-accent ${
                 isEventActive
-                  ? "text-[#43ff57]"
-                  : "text-white hover:text-[#43ff57]"
+                  ? "text-accent-text"
+                  : "text-ink hover:text-accent-text"
               }`}
             >
               <span>Мероприятия</span>
               <ChevronDownIcon
                 className={`h-4 w-4 transition-transform duration-200 ${
-                  dropdownOpen ? "rotate-180 text-[#43ff57]" : ""
+                  dropdownOpen ? "rotate-180 text-accent-text" : ""
                 }`}
               />
             </button>
 
             {dropdownOpen && (
               <div className="absolute top-full left-0 pt-2">
-                <div className="w-[240px] rounded-[12px] border border-white/10 bg-[#2b2b2b] p-2 shadow-2xl">
+                <div className="w-[248px] rounded-2xl border border-hairline-strong bg-surface p-2 shadow-2xl">
                   {EVENT_NAV_ITEMS.map((item) => {
                     const active = pathname === item.href;
                     return (
@@ -92,10 +97,10 @@ export function Header() {
                         key={item.href}
                         href={item.href}
                         onClick={() => setDropdownOpen(false)}
-                        className={`block rounded-[8px] px-3.5 py-2.5 text-[14px] font-semibold transition ${
+                        className={`block rounded-xl px-3.5 py-2.5 text-sm font-semibold transition ${
                           active
-                            ? "bg-white/10 text-[#43ff57]"
-                            : "text-white hover:bg-white/5 hover:text-[#43ff57]"
+                            ? "bg-accent-soft text-accent-text"
+                            : "text-ink hover:bg-surface-elevated hover:text-accent-text"
                         }`}
                       >
                         {item.label}
@@ -108,11 +113,20 @@ export function Header() {
           </div>
 
           <Link
+            href={LOFT_PRODUCT.url}
+            className={`text-sm font-semibold transition hover:text-accent-text focus-visible:outline-2 focus-visible:outline-accent ${
+              pathname === LOFT_PRODUCT.url ? "text-accent-text" : "text-ink"
+            }`}
+          >
+            О площадке
+          </Link>
+
+          <Link
             href={pathname === "/" ? "#blog" : "/blog"}
-            className={`text-[15px] font-semibold transition hover:text-[#43ff57] focus-visible:outline-2 focus-visible:outline-[#43ff57] ${
+            className={`text-sm font-semibold transition hover:text-accent-text focus-visible:outline-2 focus-visible:outline-accent ${
               pathname.startsWith("/blog") || pathname.startsWith("/tpost")
-                ? "text-[#43ff57]"
-                : "text-white"
+                ? "text-accent-text"
+                : "text-ink"
             }`}
           >
             Блог
@@ -120,23 +134,23 @@ export function Header() {
 
           <Link
             href="/contacts"
-            className={`text-[15px] font-semibold transition hover:text-[#43ff57] focus-visible:outline-2 focus-visible:outline-[#43ff57] ${
-              pathname === "/contacts" ? "text-[#43ff57]" : "text-white"
+            className={`text-sm font-semibold transition hover:text-accent-text focus-visible:outline-2 focus-visible:outline-accent ${
+              pathname === "/contacts" ? "text-accent-text" : "text-ink"
             }`}
           >
             Контакты
           </Link>
         </nav>
 
-        {/* Right: Socials, Phone, CTA */}
-        <div className="hidden items-center gap-4 lg:flex">
-          <div className="flex items-center gap-2">
+        {/* Right: Messengers, Phone, Theme, Single Primary CTA */}
+        <div className="hidden items-center gap-3 lg:flex">
+          <div className="flex items-center gap-1.5">
             <a
               href={SITE_CONFIG.telegramUrl}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Написать в Telegram"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-[#43ff57] hover:text-black"
+              className="flex h-9 w-9 items-center justify-center rounded-xl border border-hairline bg-surface text-ink-muted transition hover:border-accent-text hover:text-accent-text"
             >
               <TelegramIcon className="h-4 w-4" />
             </a>
@@ -145,7 +159,7 @@ export function Header() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Написать в WhatsApp"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-[#43ff57] hover:text-black"
+              className="flex h-9 w-9 items-center justify-center rounded-xl border border-hairline bg-surface text-ink-muted transition hover:border-accent-text hover:text-accent-text"
             >
               <WhatsAppIcon className="h-4 w-4" />
             </a>
@@ -154,7 +168,7 @@ export function Header() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Написать в Max"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-[#43ff57] hover:text-black"
+              className="flex h-9 w-9 items-center justify-center rounded-xl border border-hairline bg-surface text-ink-muted transition hover:border-accent-text hover:text-accent-text"
             >
               <MaxMessengerIcon className="h-4 w-4" />
             </a>
@@ -162,28 +176,36 @@ export function Header() {
 
           <a
             href={SITE_CONFIG.phoneHref}
-            className="text-[16px] font-bold whitespace-nowrap text-white transition hover:text-[#43ff57]"
+            className="px-1 font-mono text-sm font-bold tracking-tight whitespace-nowrap text-ink tabular-nums transition hover:text-accent-text"
           >
             {SITE_CONFIG.phoneDisplay}
           </a>
 
+          <ThemeToggle />
+
           <button
             type="button"
-            onClick={() => openLeadModal({ mode: "callback", source: "Шапка сайта" })}
-            className="inline-flex h-10 cursor-pointer items-center justify-center rounded-[6px] bg-[#43ff57] px-4 text-[14px] font-bold text-black transition hover:bg-[#33d744] hover:text-white focus-visible:outline-2 focus-visible:outline-[#43ff57]"
+            onClick={() =>
+              openLeadModal({ mode: "booking", source: "Шапка сайта" })
+            }
+            className="btn-primary h-10 px-4 text-sm focus-visible:outline-2 focus-visible:outline-accent"
           >
-            Оставить заявку
+            Проверить дату
           </button>
         </div>
 
         {/* Mobile Actions & Burger */}
-        <div className="flex items-center gap-2.5 lg:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
+          <ThemeToggle />
+
           <button
             type="button"
-            onClick={() => openLeadModal({ mode: "callback", source: "Шапка (моб.)" })}
-            className="inline-flex h-9 cursor-pointer items-center justify-center rounded-[6px] bg-[#43ff57] px-3 text-xs font-bold text-black transition hover:bg-[#33d744]"
+            onClick={() =>
+              openLeadModal({ mode: "booking", source: "Шапка (моб.)" })
+            }
+            className="btn-primary h-9 px-3 text-xs"
           >
-            Заявка
+            Проверить дату
           </button>
 
           <button
@@ -191,22 +213,12 @@ export function Header() {
             aria-label={mobileOpen ? "Закрыть меню" : "Открыть меню"}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[8px] border border-white/15 text-white transition hover:border-[#43ff57] hover:text-[#43ff57]"
+            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-hairline-strong bg-surface text-ink transition hover:border-accent-text hover:text-accent-text"
           >
             {mobileOpen ? (
-              <CloseIcon className="h-6 w-6" />
+              <CloseIcon className="h-5 w-5" />
             ) : (
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                className="h-6 w-6"
-                aria-hidden="true"
-              >
-                <path d="M4 7h16M4 12h16M4 17h16" />
-              </svg>
+              <MenuIcon className="h-5 w-5" />
             )}
           </button>
         </div>
@@ -214,18 +226,18 @@ export function Header() {
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="border-t border-white/10 bg-[#0d0d0d] px-4 pt-4 pb-6 lg:hidden">
-          <nav aria-label="Мобильное меню" className="space-y-2">
+        <div className="border-t border-hairline bg-surface px-4 pt-4 pb-6 lg:hidden">
+          <nav aria-label="Мобильное меню" className="space-y-1.5">
             <div>
               <button
                 type="button"
                 onClick={() => setMobileEventsOpen((v) => !v)}
-                className="flex w-full cursor-pointer items-center justify-between rounded-[10px] bg-white/5 px-4 py-3 text-left text-[15px] font-bold text-white"
+                className="flex w-full cursor-pointer items-center justify-between rounded-xl bg-surface-elevated px-4 py-3 text-left text-sm font-bold text-ink"
               >
                 <span>Мероприятия</span>
                 <ChevronDownIcon
                   className={`h-4 w-4 transition-transform ${
-                    mobileEventsOpen ? "rotate-180 text-[#43ff57]" : ""
+                    mobileEventsOpen ? "rotate-180 text-accent-text" : ""
                   }`}
                 />
               </button>
@@ -236,10 +248,10 @@ export function Header() {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileOpen(false)}
-                      className={`rounded-[8px] px-3.5 py-2.5 text-sm font-semibold transition ${
+                      className={`rounded-xl px-3.5 py-2.5 text-sm font-semibold transition ${
                         pathname === item.href
-                          ? "bg-white/10 text-[#43ff57]"
-                          : "text-white/85 hover:text-[#43ff57]"
+                          ? "bg-accent-soft text-accent-text"
+                          : "text-ink-muted hover:text-accent-text"
                       }`}
                     >
                       {item.label}
@@ -250,9 +262,17 @@ export function Header() {
             </div>
 
             <Link
+              href={LOFT_PRODUCT.url}
+              onClick={() => setMobileOpen(false)}
+              className="block rounded-xl px-4 py-3 text-sm font-bold text-ink transition hover:bg-surface-elevated hover:text-accent-text"
+            >
+              О площадке
+            </Link>
+
+            <Link
               href="/blog"
               onClick={() => setMobileOpen(false)}
-              className="block rounded-[10px] px-4 py-3 text-[15px] font-bold text-white transition hover:bg-white/5 hover:text-[#43ff57]"
+              className="block rounded-xl px-4 py-3 text-sm font-bold text-ink transition hover:bg-surface-elevated hover:text-accent-text"
             >
               Блог
             </Link>
@@ -260,7 +280,7 @@ export function Header() {
             <Link
               href="/contacts"
               onClick={() => setMobileOpen(false)}
-              className="block rounded-[10px] px-4 py-3 text-[15px] font-bold text-white transition hover:bg-white/5 hover:text-[#43ff57]"
+              className="block rounded-xl px-4 py-3 text-sm font-bold text-ink transition hover:bg-surface-elevated hover:text-accent-text"
             >
               Контакты
             </Link>
@@ -268,27 +288,27 @@ export function Header() {
             <Link
               href="/offer"
               onClick={() => setMobileOpen(false)}
-              className="block rounded-[10px] px-4 py-3 text-sm font-semibold text-white/75 transition hover:bg-white/5 hover:text-[#43ff57]"
+              className="block rounded-xl px-4 py-3 text-sm font-semibold text-ink-muted transition hover:bg-surface-elevated hover:text-accent-text"
             >
               Публичная оферта
             </Link>
           </nav>
 
-          <div className="mt-5 border-t border-white/10 pt-5">
+          <div className="mt-5 border-t border-hairline pt-5">
             <a
               href={SITE_CONFIG.phoneHref}
-              className="block text-xl font-bold text-white hover:text-[#43ff57]"
+              className="block font-mono text-lg font-bold text-ink tabular-nums hover:text-accent-text"
             >
               {SITE_CONFIG.phoneDisplay}
             </a>
-            <p className="mt-1 text-xs text-white/60">{SITE_CONFIG.address}</p>
+            <p className="mt-1 text-xs text-ink-muted">{SITE_CONFIG.address}</p>
 
-            <div className="mt-4 flex items-center gap-3">
+            <div className="mt-4 flex flex-wrap items-center gap-2.5">
               <a
                 href={SITE_CONFIG.telegramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-10 items-center gap-2 rounded-[8px] bg-white/10 px-3.5 text-xs font-semibold text-white transition hover:bg-[#43ff57] hover:text-black"
+                className="inline-flex h-10 items-center gap-2 rounded-xl border border-hairline bg-surface-elevated px-3.5 text-xs font-semibold text-ink transition hover:border-accent-text hover:text-accent-text"
               >
                 <TelegramIcon className="h-4 w-4" />
                 Telegram
@@ -297,7 +317,7 @@ export function Header() {
                 href={SITE_CONFIG.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-10 items-center gap-2 rounded-[8px] bg-white/10 px-3.5 text-xs font-semibold text-white transition hover:bg-[#43ff57] hover:text-black"
+                className="inline-flex h-10 items-center gap-2 rounded-xl border border-hairline bg-surface-elevated px-3.5 text-xs font-semibold text-ink transition hover:border-accent-text hover:text-accent-text"
               >
                 <WhatsAppIcon className="h-4 w-4" />
                 WhatsApp
@@ -306,7 +326,7 @@ export function Header() {
                 href={SITE_CONFIG.maxUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-10 items-center gap-2 rounded-[8px] bg-white/10 px-3.5 text-xs font-semibold text-white transition hover:bg-[#43ff57] hover:text-black"
+                className="inline-flex h-10 items-center gap-2 rounded-xl border border-hairline bg-surface-elevated px-3.5 text-xs font-semibold text-ink transition hover:border-accent-text hover:text-accent-text"
               >
                 <MaxMessengerIcon className="h-4 w-4" />
                 Max

@@ -9,7 +9,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { YandexMetrika } from "@/components/YandexMetrika";
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  themeColor: "#0b0d10",
   width: "device-width",
   initialScale: 1,
 };
@@ -17,11 +17,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_CONFIG.url),
   title: {
-    default: "Аренда лофта для вечеринок в Пятигорске — пространство «Шумно»",
+    default: "Аренда лофта для вечеринок в Пятигорске: пространство «ШУМНО»",
     template: "%s",
   },
   description:
-    "Аренда лофта для вечеринок в Пятигорске. Можно шуметь 24/7, со своей едой. Всё включено: PS5, Wi-Fi, посуда. Цена от 1500₽/час. Забронируйте ваше пространство «Шумно»!",
+    "Аренда лофта 100 м² для вечеринок и мероприятий в Пятигорске. Можно шуметь 24/7, со своей едой без пробкового сбора. Караоке, PS5, Wi-Fi, посуда. От 1 500 ₽/час.",
   alternates: {
     canonical: "/",
   },
@@ -43,9 +43,9 @@ export const metadata: Metadata = {
     locale: "ru_RU",
     url: SITE_CONFIG.url,
     siteName: SITE_CONFIG.name,
-    title: "Аренда лофта для вечеринок в Пятигорске — пространство «Шумно»",
+    title: "Аренда лофта для вечеринок в Пятигорске: пространство «ШУМНО»",
     description:
-      "Аренда лофта для вечеринок в Пятигорске. Можно шуметь 24/7, со своей едой. Всё включено: PS5, Wi-Fi, посуда. Цена от 1500₽/час.",
+      "Приватный лофт 100 м² в Пятигорске. Можно шуметь 24/7, со своей едой без сборов. Караоке, PS5, Wi-Fi, посуда. Цена от 1 500 ₽/час.",
     images: [
       {
         url: "/images/og/home.png",
@@ -57,12 +57,23 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Аренда лофта для вечеринок в Пятигорске — пространство «Шумно»",
+    title: "Аренда лофта для вечеринок в Пятигорске: пространство «ШУМНО»",
     description:
-      "Приватный лофт 100 м² в центре Пятигорска: караоке, PS5, кухня, можно со своим и шуметь 24/7. От 1 500 ₽/час.",
+      "Приватный лофт 100 м² в Пятигорске: караоке, PS5, кухня, можно со своим и шуметь 24/7. От 1 500 ₽/час.",
     images: ["/images/og/home.png"],
   },
 };
+
+const themeInitScript = `
+(function(){
+  try {
+    var saved = localStorage.getItem('goodroom-theme');
+    if (saved === 'light' || saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+  } catch (e) {}
+})();
+`;
 
 export default function RootLayout({
   children,
@@ -70,8 +81,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" data-scroll-behavior="smooth">
-      <body className="flex min-h-screen flex-col bg-white text-black antialiased">
+    <html
+      lang="ru"
+      data-theme="dark"
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className="relative flex min-h-[100dvh] flex-col bg-canvas text-ink antialiased">
         <ModalProvider>
           <Header />
           <div className="flex-1">{children}</div>

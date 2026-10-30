@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     }
 
     const lines = [
-      "🎉 Новая заявка — Лофт «ШУМНО» (goodroom26.ru)",
+      "Новая заявка - Лофт «ШУМНО» (goodroom26.ru)",
       `Источник: ${source}`,
       `Имя: ${name}`,
       `Телефон: ${phone}`,

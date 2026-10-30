@@ -9,7 +9,7 @@ const normalizedSiteUrl = rawSiteUrl
 
 export const SITE_CONFIG = {
   name: "Лофт ШУМНО",
-  brandAlt: "Пространство «ШУМНО» (GoodRoom) — Пятигорск",
+  brandAlt: "Пространство «ШУМНО» (GoodRoom), Пятигорск",
   url: normalizedSiteUrl,
   phoneDisplay: "+7 (928) 020-10-01",
   phoneHref: "tel:+79280201001",
