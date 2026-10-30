@@ -15,14 +15,14 @@ export function FloatingMessengers() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="fixed right-5 bottom-5 z-30 flex flex-col items-end gap-2.5 sm:right-6 sm:bottom-6">
+    <div className="fixed right-5 bottom-5 z-30 flex flex-col items-end gap-2 sm:right-6 sm:bottom-6">
       {open && (
-        <div className="flex flex-col items-end gap-2">
+        <div className="surface-glass flex flex-col items-stretch gap-1.5 rounded-2xl border border-hairline-strong p-2 shadow-2xl">
           <a
             href={SITE_CONFIG.messengerPhoneHref}
-            className="inline-flex h-11 items-center gap-2.5 rounded-full bg-black px-4 text-xs font-bold text-white shadow-xl ring-1 ring-white/15 transition hover:bg-[#43ff57] hover:text-black"
+            className="inline-flex h-10 items-center gap-2.5 rounded-xl px-3.5 text-xs font-bold text-ink transition hover:bg-surface-elevated hover:text-accent-text"
           >
-            <PhoneIcon className="h-4 w-4" />
+            <PhoneIcon className="h-4 w-4 text-accent-text" />
             <span>Позвонить</span>
           </a>
 
@@ -30,9 +30,9 @@ export function FloatingMessengers() {
             href={SITE_CONFIG.telegramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-11 items-center gap-2.5 rounded-full bg-[#24A1DE] px-4 text-xs font-bold text-white shadow-xl transition hover:brightness-110"
+            className="inline-flex h-10 items-center gap-2.5 rounded-xl px-3.5 text-xs font-bold text-ink transition hover:bg-surface-elevated hover:text-accent-text"
           >
-            <TelegramIcon className="h-4 w-4" />
+            <TelegramIcon className="h-4 w-4 text-accent-text" />
             <span>Telegram</span>
           </a>
 
@@ -40,9 +40,9 @@ export function FloatingMessengers() {
             href={SITE_CONFIG.whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-11 items-center gap-2.5 rounded-full bg-[#25D366] px-4 text-xs font-bold text-white shadow-xl transition hover:brightness-110"
+            className="inline-flex h-10 items-center gap-2.5 rounded-xl px-3.5 text-xs font-bold text-ink transition hover:bg-surface-elevated hover:text-accent-text"
           >
-            <WhatsAppIcon className="h-4 w-4" />
+            <WhatsAppIcon className="h-4 w-4 text-accent-text" />
             <span>WhatsApp</span>
           </a>
 
@@ -50,9 +50,9 @@ export function FloatingMessengers() {
             href={SITE_CONFIG.maxUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-11 items-center gap-2.5 rounded-full bg-[#6C47FF] px-4 text-xs font-bold text-white shadow-xl transition hover:brightness-110"
+            className="inline-flex h-10 items-center gap-2.5 rounded-xl px-3.5 text-xs font-bold text-ink transition hover:bg-surface-elevated hover:text-accent-text"
           >
-            <MaxMessengerIcon className="h-4 w-4" />
+            <MaxMessengerIcon className="h-4 w-4 text-accent-text" />
             <span>Max</span>
           </a>
         </div>
@@ -62,11 +62,11 @@ export function FloatingMessengers() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        aria-label={open ? "Скрыть контакты" : "Связаться с нами"}
-        className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-[#43ff57] text-black shadow-2xl ring-4 ring-black/15 transition hover:scale-105 hover:bg-[#33d744] hover:text-white"
+        aria-label={open ? "Скрыть контакты" : "Связаться в мессенджере"}
+        className="btn-primary h-13 w-13 rounded-2xl shadow-xl"
       >
         {open ? (
-          <CloseIcon className="h-6 w-6" />
+          <CloseIcon className="h-5 w-5" />
         ) : (
           <ChatBubbleIcon className="h-6 w-6" />
         )}

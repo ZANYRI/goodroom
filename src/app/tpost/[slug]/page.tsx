@@ -5,6 +5,7 @@ import { BLOG_POSTS, getBlogPostBySlug } from "@/data/blog";
 import { SITE_CONFIG } from "@/data/site";
 import { OpenModalButton } from "@/components/OpenModalButton";
 import { ContactsMapSection } from "@/components/ContactsMapSection";
+import { ArrowLeftIcon, CheckIcon } from "@/components/Icons";
 
 export function generateStaticParams() {
   return BLOG_POSTS.map((post) => ({
@@ -90,7 +91,7 @@ export default async function BlogPostPage({
   };
 
   return (
-    <main>
+    <main className="bg-canvas text-ink">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -99,43 +100,42 @@ export default async function BlogPostPage({
       />
 
       {/* Article Header */}
-      <section className="bg-black py-12 text-white sm:py-18">
-        <div className="mx-auto max-w-[860px] px-4 sm:px-6">
-          <div className="flex flex-wrap items-center gap-3 text-xs font-bold text-[#43ff57]">
-            <Link href="/blog" className="hover:underline">
-              ← Все статьи блога
-            </Link>
-            <span className="text-white/30">•</span>
-            <span className="text-white/70">{post.readingTime}</span>
-          </div>
+      <section className="mx-auto max-w-[860px] px-4 pt-10 pb-8 sm:px-6 lg:pt-14">
+        <div className="flex flex-wrap items-center gap-2.5 text-xs font-semibold text-ink-muted">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-1.5 font-bold text-accent-text transition hover:text-ink"
+          >
+            <ArrowLeftIcon className="h-3.5 w-3.5" />
+            <span>Все материалы журнала</span>
+          </Link>
+          <span>·</span>
+          <span>{post.readingTime}</span>
+        </div>
 
-          <h1 className="mt-4 text-2xl leading-[1.22] font-bold text-white sm:text-4xl lg:text-[42px]">
-            {post.title}
-          </h1>
+        <h1 className="mt-4 font-display text-2xl leading-[1.2] font-semibold text-ink sm:text-4xl">
+          {post.title}
+        </h1>
 
-          <div className="mt-6 flex items-center gap-3.5">
-            <img
-              src={post.authorAvatar}
-              alt={post.author}
-              className="h-10 w-10 rounded-full border border-white/15 bg-white/10 object-cover"
-            />
-            <div className="text-xs">
-              <p className="font-bold text-white">{post.author}</p>
-              <time
-                dateTime={post.datePublished}
-                className="text-white/60"
-              >
-                {post.dateDisplay}
-              </time>
-            </div>
+        <div className="mt-6 flex items-center gap-3.5">
+          <img
+            src={post.authorAvatar}
+            alt={post.author}
+            className="h-10 w-10 rounded-xl border border-hairline bg-surface object-cover"
+          />
+          <div className="text-xs">
+            <p className="font-bold text-ink">{post.author}</p>
+            <time dateTime={post.datePublished} className="text-ink-subtle">
+              {post.dateDisplay}
+            </time>
           </div>
         </div>
       </section>
 
       {/* Article Body */}
-      <article className="bg-white py-10 sm:py-16">
+      <article className="pb-16 sm:pb-22">
         <div className="mx-auto max-w-[860px] px-4 sm:px-6">
-          <figure className="overflow-hidden rounded-[18px] border border-black/10 bg-black/5 shadow-md">
+          <figure className="overflow-hidden rounded-2xl border border-hairline bg-surface">
             <img
               src={post.coverImage}
               alt={post.coverAlt}
@@ -144,7 +144,7 @@ export default async function BlogPostPage({
             />
           </figure>
 
-          <div className="mt-10 space-y-6 text-base leading-relaxed text-black/85 sm:text-[17px]">
+          <div className="mt-10 space-y-6 text-base leading-relaxed text-ink-muted sm:text-[17px]">
             {post.sections.map((section, idx) => {
               if (section.type === "paragraph") {
                 return <p key={idx}>{section.text}</p>;
@@ -154,7 +154,7 @@ export default async function BlogPostPage({
                 return (
                   <h2
                     key={idx}
-                    className="pt-4 text-2xl leading-snug font-bold text-black sm:text-[30px]"
+                    className="pt-4 font-display text-xl leading-snug font-semibold text-ink sm:text-2xl"
                   >
                     {section.text}
                   </h2>
@@ -165,7 +165,7 @@ export default async function BlogPostPage({
                 return (
                   <h3
                     key={idx}
-                    className="pt-2 text-xl leading-snug font-bold text-black sm:text-2xl"
+                    className="pt-2 font-display text-lg leading-snug font-semibold text-ink sm:text-xl"
                   >
                     {section.text}
                   </h3>
@@ -176,7 +176,7 @@ export default async function BlogPostPage({
                 return (
                   <blockquote
                     key={idx}
-                    className="rounded-r-[14px] border-l-4 border-[#43ff57] bg-[#f6f6f6] px-6 py-5 text-base font-semibold text-black italic sm:text-lg"
+                    className="rounded-2xl border-l-4 border-accent bg-surface px-6 py-5 text-base leading-relaxed font-semibold text-ink"
                   >
                     {section.text}
                   </blockquote>
@@ -187,8 +187,8 @@ export default async function BlogPostPage({
                 return (
                   <ul key={idx} className="space-y-2.5 pl-1">
                     {section.items.map((item) => (
-                      <li key={item} className="flex items-start gap-3">
-                        <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#36b644]" />
+                      <li key={item} className="flex items-start gap-2.5">
+                        <CheckIcon className="mt-1 h-4 w-4 shrink-0 text-accent-text" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -200,7 +200,7 @@ export default async function BlogPostPage({
                 return (
                   <figure
                     key={idx}
-                    className="my-8 overflow-hidden rounded-[16px] border border-black/10"
+                    className="my-8 overflow-hidden rounded-2xl border border-hairline bg-surface"
                   >
                     <img
                       src={section.src}
@@ -209,7 +209,7 @@ export default async function BlogPostPage({
                       className="w-full object-cover"
                     />
                     {section.alt && (
-                      <figcaption className="bg-[#f8f8f8] px-4 py-2.5 text-center text-xs text-black/60">
+                      <figcaption className="border-t border-hairline px-4 py-2.5 text-center text-xs text-ink-subtle">
                         {section.alt}
                       </figcaption>
                     )}
@@ -225,16 +225,16 @@ export default async function BlogPostPage({
                 return (
                   <div
                     key={idx}
-                    className="my-6 overflow-x-auto rounded-[14px] border border-black/12 shadow-xs"
+                    className="my-6 overflow-x-auto rounded-2xl border border-hairline bg-surface"
                   >
                     <table className="w-full min-w-[560px] border-collapse text-left text-sm sm:text-[15px]">
                       <thead>
-                        <tr className="bg-black text-white">
+                        <tr className="border-b border-hairline bg-surface-elevated">
                           {section.headers.map((header, hIdx) => (
                             <th
                               key={header}
                               className={`px-4 py-3.5 font-bold ${
-                                hIdx === 2 ? "text-[#43ff57]" : ""
+                                hIdx === 2 ? "text-accent-text" : "text-ink"
                               }`}
                             >
                               {header}
@@ -242,21 +242,18 @@ export default async function BlogPostPage({
                           ))}
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-black/10 bg-white">
+                      <tbody className="divide-y divide-hairline">
                         {section.rows.map((row, rIdx) => (
-                          <tr
-                            key={rIdx}
-                            className="even:bg-[#f9f9f9]"
-                          >
+                          <tr key={rIdx}>
                             {row.map((cell, cIdx) => (
                               <td
                                 key={cIdx}
                                 className={`px-4 py-3.5 align-top ${
                                   cIdx === 0
-                                    ? "font-bold text-black"
+                                    ? "font-bold text-ink"
                                     : cIdx === 2
-                                      ? "font-semibold text-black"
-                                      : "text-black/75"
+                                      ? "font-semibold text-ink"
+                                      : "text-ink-muted"
                                 }`}
                               >
                                 {cell}
@@ -274,60 +271,54 @@ export default async function BlogPostPage({
             })}
           </div>
 
-          {/* Booking CTA Box */}
-          <div className="mt-14 rounded-[20px] bg-black p-7 text-white sm:p-10">
-            <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-bold text-[#43ff57]">
-              Пространство «ШУМНО» • Пятигорск
-            </span>
-            <h2 className="mt-3 text-2xl font-bold text-white sm:text-3xl">
-              Хотите провести праздник без ограничений?
+          {/* Booking CTA Panel */}
+          <div className="mt-14 rounded-2xl border border-hairline-strong bg-surface p-7 sm:p-9">
+            <h2 className="font-display text-xl font-semibold text-ink sm:text-2xl">
+              Проведите событие без ресторанных ограничений
             </h2>
-            <p className="mt-2.5 max-w-xl text-sm leading-relaxed text-white/75 sm:text-base">
-              100 м² стильного лофта на ул. Мира 155А: можно шуметь 24/7, со
-              своей едой и напитками, PS5, караоке 50 000+ песен и посудой. От
-              1 500 ₽/час!
+            <p className="mt-2.5 max-w-xl text-sm leading-relaxed text-ink-muted sm:text-base">
+              100 м² закрытого лофта на ул. Мира 155А: можно шуметь 24/7, со
+              своей едой и напитками без сборов, PS5, караоке 50 000+ песен и
+              посудой. От 1 500 ₽/час.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <OpenModalButton
                 mode="booking"
                 source={`Статья: ${post.title}`}
-                className="shimmer-btn inline-flex h-12 cursor-pointer items-center justify-center rounded-[10px] bg-[#43ff57] px-7 text-sm font-bold text-black transition hover:bg-[#33d744] hover:text-white"
+                className="btn-primary h-12 px-7 text-sm"
               >
-                Забронировать дату
+                Проверить дату
               </OpenModalButton>
-              <Link
-                href="/"
-                className="inline-flex h-12 items-center justify-center rounded-[10px] border border-white/20 bg-white/10 px-6 text-sm font-bold text-white transition hover:border-[#43ff57] hover:text-[#43ff57]"
-              >
-                Смотреть фото лофта
+              <Link href="/" className="btn-secondary h-12 px-6 text-sm">
+                Смотреть фото зала
               </Link>
             </div>
           </div>
 
           {/* Related Articles */}
           {otherPosts.length > 0 && (
-            <div className="mt-14 border-t border-black/10 pt-10">
-              <h2 className="text-xl font-bold text-black sm:text-2xl">
-                Читайте также
+            <div className="mt-14 border-t border-hairline pt-10">
+              <h2 className="font-display text-lg font-semibold text-ink sm:text-xl">
+                Другие материалы журнала
               </h2>
-              <div className="mt-5 grid grid-cols-1 gap-5">
+              <div className="mt-5 grid grid-cols-1 gap-4">
                 {otherPosts.map((other) => (
                   <Link
                     key={other.uid}
                     href={other.url}
-                    className="group flex flex-col gap-4 rounded-[16px] border border-black/10 bg-[#f8f8f8] p-5 transition hover:border-black/30 hover:bg-white sm:flex-row sm:items-center"
+                    className="group flex flex-col gap-4 rounded-2xl border border-hairline bg-surface p-4 transition hover:border-hairline-strong sm:flex-row sm:items-center"
                   >
                     <img
                       src={other.coverImage}
                       alt={other.coverAlt}
                       loading="lazy"
-                      className="h-28 w-full shrink-0 rounded-[10px] object-cover sm:w-44"
+                      className="h-28 w-full shrink-0 rounded-xl object-cover sm:w-44"
                     />
                     <div>
-                      <span className="text-xs font-semibold text-black/50">
-                        {other.dateDisplay} • {other.readingTime}
+                      <span className="text-xs font-semibold text-ink-subtle">
+                        {other.dateDisplay} · {other.readingTime}
                       </span>
-                      <h3 className="mt-1 text-lg font-bold text-[#36b644] group-hover:text-black">
+                      <h3 className="mt-1.5 font-display text-base font-semibold text-ink transition group-hover:text-accent-text">
                         {other.title}
                       </h3>
                     </div>

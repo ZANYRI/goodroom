@@ -6,7 +6,9 @@ import { CheckCircleIcon } from "@/components/Icons";
 
 export function HeroQuickForm() {
   const [phone, setPhone] = useState("");
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -40,39 +42,43 @@ export function HeroQuickForm() {
       setPhone("");
     } catch {
       setStatus("error");
-      setErrorMsg("Не удалось отправить. Позвоните нам по телефону в шапке.");
+      setErrorMsg("Не удалось отправить. Позвоните нам по номеру в шапке.");
     }
   };
 
   if (status === "success") {
     return (
-      <div className="inline-flex items-center gap-3 rounded-[14px] border border-[#43ff57]/40 bg-black/80 px-5 py-4 text-left text-white backdrop-blur-md">
-        <CheckCircleIcon className="h-6 w-6 shrink-0 text-[#43ff57]" />
+      <div className="inline-flex items-center gap-3 rounded-2xl border border-hairline-strong bg-surface px-5 py-4 text-left">
+        <CheckCircleIcon className="h-6 w-6 shrink-0 text-accent-text" />
         <div>
-          <p className="text-sm font-bold text-[#43ff57]">
-            Заявка принята!
-          </p>
-          <p className="text-xs text-white/80">
-            Перезвоним вам в ближайшие минуты для выбора времени.
+          <p className="text-sm font-bold text-ink">Заявка принята</p>
+          <p className="text-xs text-ink-muted">
+            Перезвоним в ближайшие минуты и проверим свободные слоты.
           </p>
         </div>
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="ml-2 cursor-pointer text-xs font-semibold text-white/60 underline hover:text-white"
+          className="ml-2 cursor-pointer text-xs font-semibold text-accent-text underline underline-offset-4 hover:text-ink"
         >
-          Ещё
+          Новая заявка
         </button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-[520px]">
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <label htmlFor="hero-phone" className="sr-only">
-          Ваш номер телефона
-        </label>
+    <form
+      onSubmit={handleSubmit}
+      className="w-full max-w-[540px] rounded-2xl border border-hairline bg-surface p-3 sm:p-3.5"
+    >
+      <label
+        htmlFor="hero-phone"
+        className="mb-2 block px-1 text-xs font-semibold text-ink-muted"
+      >
+        Узнать свободные часы по номеру телефона
+      </label>
+      <div className="flex flex-col gap-2.5 sm:flex-row">
         <input
           id="hero-phone"
           type="tel"
@@ -86,13 +92,13 @@ export function HeroQuickForm() {
               setErrorMsg("");
             }
           }}
-          placeholder="+7 (000) 000-00-00"
-          className="h-14 flex-1 rounded-[10px] border border-white/20 bg-white px-5 text-[16px] font-medium text-black placeholder:text-black/45 outline-none transition focus:ring-2 focus:ring-[#43ff57]"
+          placeholder="+7 (900) 000-00-00"
+          className="h-12 flex-1 rounded-xl border border-hairline-strong bg-surface-elevated px-4 font-mono text-sm font-semibold text-ink tabular-nums placeholder:text-ink-subtle outline-none transition focus:border-accent-text focus:ring-2 focus:ring-accent/30"
         />
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="shimmer-btn h-14 shrink-0 cursor-pointer rounded-[10px] bg-[#43ff57] px-8 text-[16px] font-bold text-black transition hover:bg-[#33d744] hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
+          className="btn-primary h-12 shrink-0 px-6 text-sm disabled:cursor-not-allowed disabled:opacity-60"
         >
           {status === "submitting" ? "Отправка..." : "Забронировать"}
         </button>
@@ -100,7 +106,12 @@ export function HeroQuickForm() {
       {status === "error" && errorMsg && (
         <p
           role="alert"
-          className="mt-2.5 inline-block rounded-[8px] bg-black/80 px-3 py-1.5 text-xs font-semibold text-[#ff8562]"
+          className="mt-2.5 rounded-xl border px-3 py-2 text-xs font-semibold"
+          style={{
+            backgroundColor: "var(--danger-bg)",
+            borderColor: "var(--danger-border)",
+            color: "var(--danger-text)",
+          }}
         >
           {errorMsg}
         </p>

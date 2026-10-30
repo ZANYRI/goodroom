@@ -5,6 +5,7 @@ import { INCLUDED_FEATURES, LOFT_PRODUCT } from "@/data/home";
 import { OFFER_DOCUMENT } from "@/data/offer";
 import { LoftCatalogCard } from "@/components/LoftCatalogCard";
 import { ContactsMapSection } from "@/components/ContactsMapSection";
+import { ArrowLeftIcon, CheckIcon } from "@/components/Icons";
 
 export const metadata: Metadata = {
   title: LOFT_PRODUCT.seoTitle,
@@ -44,7 +45,7 @@ export default function LoftProductPage() {
   };
 
   return (
-    <main>
+    <main className="bg-canvas text-ink">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -52,77 +53,93 @@ export default function LoftProductPage() {
         }}
       />
 
-      {/* Breadcrumb & Title Header */}
-      <section className="bg-black py-10 text-white sm:py-14">
-        <div className="mx-auto max-w-[1280px] px-4 sm:px-6">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#43ff57] transition hover:underline"
-          >
-            ← Все форматы и главная
-          </Link>
-          <h1 className="mt-3 text-3xl font-bold text-white sm:text-5xl">
-            {LOFT_PRODUCT.seoTitle}
-          </h1>
-          <p className="mt-3 max-w-2xl text-sm text-white/75 sm:text-base">
-            {SITE_CONFIG.address} • Почасовая аренда 24/7 без пробкового сбора
-          </p>
-        </div>
+      {/* Header */}
+      <section className="mx-auto max-w-7xl px-4 pt-10 pb-8 sm:px-6 lg:pt-14">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-accent-text transition hover:text-ink"
+        >
+          <ArrowLeftIcon className="h-3.5 w-3.5" />
+          <span>На главную страницу</span>
+        </Link>
+
+        <h1 className="mt-4 max-w-4xl font-display text-3xl leading-[1.15] font-semibold text-ink sm:text-5xl">
+          {LOFT_PRODUCT.seoTitle}
+        </h1>
+        <p className="mt-3 max-w-2xl text-sm text-ink-muted sm:text-base">
+          {SITE_CONFIG.address} · Почасовая аренда 24/7 без пробкового сбора
+        </p>
       </section>
 
-      {/* Interactive Product Card */}
-      <section className="bg-[#f3f3f3] py-12 sm:py-16">
-        <div className="mx-auto max-w-[1280px] px-4 sm:px-6">
+      {/* Interactive Configurator */}
+      <section className="pb-18 sm:pb-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <LoftCatalogCard showDetailsLink={false} />
         </div>
       </section>
 
-      {/* Included Amenities & Full Equipment */}
-      <section className="bg-white py-14 sm:py-20">
-        <div className="mx-auto max-w-[1280px] px-4 sm:px-6">
-          <h2 className="text-2xl font-bold text-black sm:text-3xl">
-            Что уже включено в стоимость аренды
+      {/* Included Equipment & Room-by-Room Inventory */}
+      <section className="border-t border-hairline bg-surface py-18 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <h2 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
+            Что включено в базовый тариф
           </h2>
-          <div className="mt-7 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {INCLUDED_FEATURES.map((feat) => (
               <div
                 key={feat.title}
-                className="flex flex-col items-center rounded-[14px] border border-black/8 bg-[#f8f8f8] p-5 text-center"
+                className="flex items-start gap-4 rounded-2xl border border-hairline bg-canvas p-5"
               >
-                <img
-                  src={feat.icon}
-                  alt=""
-                  aria-hidden="true"
-                  loading="lazy"
-                  className="h-11 w-11 object-contain"
-                />
-                <span className="mt-3 text-xs font-bold text-black sm:text-sm">
-                  {feat.title}
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-surface-elevated p-2.5">
+                  <img
+                    src={feat.icon}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    className="icon-adaptive h-full w-full object-contain"
+                  />
                 </span>
+                <div>
+                  <p className="text-sm font-bold text-ink sm:text-base">
+                    {feat.title}
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-ink-muted">
+                    {feat.detail}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
 
-          <h2 className="mt-14 text-2xl font-bold text-black sm:text-3xl">
-            Оснащение залов (100 м²)
-          </h2>
-          <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {OFFER_DOCUMENT.appendix1.rooms.map((room) => (
-              <div
-                key={room.room}
-                className="rounded-[16px] border border-black/10 bg-[#f8f8f8] p-6"
-              >
-                <h3 className="text-lg font-bold text-black">{room.room}</h3>
-                <ul className="mt-3 space-y-1.5 text-sm text-black/75">
-                  {room.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2">
-                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#36b644]" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          <div className="mt-16">
+            <h2 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
+              Зонирование и оснащение залов (100 м²)
+            </h2>
+            <p className="mt-2.5 max-w-2xl text-sm text-ink-muted sm:text-base">
+              Полный перечень оборудования, мебели и техники по каждой зоне
+              пространства.
+            </p>
+
+            <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
+              {OFFER_DOCUMENT.appendix1.rooms.map((room) => (
+                <div
+                  key={room.room}
+                  className="rounded-2xl border border-hairline bg-canvas p-6 sm:p-7"
+                >
+                  <h3 className="font-display text-lg font-semibold text-ink">
+                    {room.room.replace(/[\u2014\u2013]/g, "-")}
+                  </h3>
+                  <ul className="mt-4 space-y-2 text-sm text-ink-muted">
+                    {room.items.map((item) => (
+                      <li key={item} className="flex items-start gap-2.5">
+                        <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent-text" />
+                        <span>{item.replace(/[\u2014\u2013]/g, "-")}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
