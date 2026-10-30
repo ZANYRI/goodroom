@@ -1,63 +1,57 @@
 "use client";
 
-import React, { useSyncExternalStore } from "react";
+import React from "react";
+import { useTheme } from "@/lib/theme";
 import { MoonIcon, SunIcon } from "@/components/Icons";
 
-type ThemeMode = "dark" | "light";
-
-const listeners = new Set<() => void>();
-
-function subscribeTheme(listener: () => void) {
-  listeners.add(listener);
-  return () => {
-    listeners.delete(listener);
-  };
+interface ThemeToggleProps {
+  compact?: boolean;
 }
 
-function getClientTheme(): ThemeMode {
-  if (typeof document === "undefined") return "dark";
-  return document.documentElement.getAttribute("data-theme") === "light"
-    ? "light"
-    : "dark";
-}
-
-function getServerTheme(): ThemeMode {
-  return "dark";
-}
-
-export function ThemeToggle() {
-  const theme = useSyncExternalStore(
-    subscribeTheme,
-    getClientTheme,
-    getServerTheme
-  );
-
-  const toggleTheme = () => {
-    const next: ThemeMode = theme === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", next);
-    try {
-      window.localStorage.setItem("goodroom-theme", next);
-    } catch {
-      // Ignore storage restrictions
-    }
-    listeners.forEach((listener) => listener());
-  };
+export function ThemeToggle({ compact = false }: ThemeToggleProps) {
+  const { theme, setTheme } = useTheme();
 
   return (
-    <button
-      type="button"
-      onClick={toggleTheme}
-      aria-label={
-        theme === "dark" ? "Включить светлую тему" : "Включить темную тему"
-      }
-      title={theme === "dark" ? "Светлая тема" : "Темная тема"}
-      className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-hairline bg-surface text-ink-muted transition hover:border-hairline-strong hover:text-ink focus-visible:outline-2 focus-visible:outline-accent"
+    <div
+      role="group"
+      aria-label="Переключение темы оформления"
+      className="inline-flex items-center rounded-xl border border-hairline-strong bg-surface p-1"
     >
-      {theme === "dark" ? (
-        <SunIcon className="h-4 w-4" />
-      ) : (
-        <MoonIcon className="h-4 w-4" />
-      )}
-    </button>
+      <button
+        type="button"
+        aria-pressed={theme === "dark"}
+        aria-label="Темная тема"
+        title="Темная тема"
+        onClick={() => setTheme("dark")}
+        className={`inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-lg font-semibold transition focus-visible:outline-2 focus-visible:outline-accent ${
+          compact ? "h-7 w-8 text-xs" : "h-8 px-2.5 text-xs"
+        } ${
+          theme === "dark"
+            ? "bg-accent text-accent-ink shadow-xs"
+            : "text-ink-muted hover:text-ink"
+        }`}
+      >
+        <MoonIcon className="h-3.5 w-3.5 shrink-0" />
+        {!compact && <span>Темная</span>}
+      </button>
+
+      <button
+        type="button"
+        aria-pressed={theme === "light"}
+        aria-label="Светлая тема"
+        title="Светлая тема"
+        onClick={() => setTheme("light")}
+        className={`inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-lg font-semibold transition focus-visible:outline-2 focus-visible:outline-accent ${
+          compact ? "h-7 w-8 text-xs" : "h-8 px-2.5 text-xs"
+        } ${
+          theme === "light"
+            ? "bg-accent text-accent-ink shadow-xs"
+            : "text-ink-muted hover:text-ink"
+        }`}
+      >
+        <SunIcon className="h-3.5 w-3.5 shrink-0" />
+        {!compact && <span>Светлая</span>}
+      </button>
+    </div>
   );
 }

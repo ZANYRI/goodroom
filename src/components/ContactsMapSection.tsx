@@ -2,6 +2,7 @@
 
 import React from "react";
 import { SITE_CONFIG } from "@/data/site";
+import { useTheme } from "@/lib/theme";
 import { useLeadModal } from "@/components/ModalProvider";
 import {
   ArrowUpRightIcon,
@@ -13,6 +14,8 @@ import {
 
 export function ContactsMapSection() {
   const { openLeadModal } = useLeadModal();
+  const { theme } = useTheme();
+  const themedMapUrl = `${SITE_CONFIG.yandexMapIframeUrl}&theme=${theme}`;
 
   return (
     <section
@@ -126,10 +129,11 @@ export function ContactsMapSection() {
             </div>
           </div>
 
-          {/* Right: HTTPS Interactive Yandex Map */}
+          {/* Right: Theme-Aware HTTPS Interactive Yandex Map */}
           <div className="min-h-[380px] w-full overflow-hidden rounded-2xl border border-hairline bg-surface lg:min-h-[460px]">
             <iframe
-              src={SITE_CONFIG.yandexMapIframeUrl}
+              key={theme}
+              src={themedMapUrl}
               title="Лофт ШУМНО на Яндекс Картах, Пятигорск, ул. Мира 155А"
               className="h-full min-h-[380px] w-full border-0 lg:min-h-[460px]"
               loading="lazy"

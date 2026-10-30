@@ -16,6 +16,7 @@ import { OpenModalButton } from "@/components/OpenModalButton";
 import { PhotoGalleryGrid } from "@/components/PhotoGalleryGrid";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { ContactsMapSection } from "@/components/ContactsMapSection";
+import { YandexReviewsWidget } from "@/components/YandexReviewsWidget";
 import {
   ArrowRightIcon,
   ArrowUpRightIcon,
@@ -526,25 +527,8 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="mx-auto w-full max-w-[560px]">
-              <div className="overflow-hidden rounded-2xl border border-hairline-strong bg-surface shadow-xl">
-                <iframe
-                  src={SITE_CONFIG.yandexReviewsIframeUrl}
-                  title="Отзывы гостей о пространстве ШУМНО на Яндекс Картах"
-                  className="h-[600px] w-full border-0"
-                  loading="lazy"
-                />
-                <div className="border-t border-hairline bg-surface px-4 py-3 text-center text-xs text-ink-muted">
-                  <a
-                    href={SITE_CONFIG.yandexMapsOrgUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-semibold transition hover:text-accent-text"
-                  >
-                    Пространство «ШУМНО» на карте Пятигорска
-                  </a>
-                </div>
-              </div>
+            <div className="mx-auto w-full max-w-[580px]">
+              <YandexReviewsWidget />
             </div>
           </div>
         </div>

@@ -127,13 +127,13 @@ export default function LoftProductPage() {
                   className="rounded-2xl border border-hairline bg-canvas p-6 sm:p-7"
                 >
                   <h3 className="font-display text-lg font-semibold text-ink">
-                    {room.room.replace(/[—–]/g, "-")}
+                    {room.room.replace(/[\u2014\u2013]/g, "-")}
                   </h3>
                   <ul className="mt-4 space-y-2 text-sm text-ink-muted">
                     {room.items.map((item) => (
                       <li key={item} className="flex items-start gap-2.5">
                         <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent-text" />
-                        <span>{item.replace(/[—–]/g, "-")}</span>
+                        <span>{item.replace(/[\u2014\u2013]/g, "-")}</span>
                       </li>
                     ))}
                   </ul>

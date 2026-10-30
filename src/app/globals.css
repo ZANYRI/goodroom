@@ -211,6 +211,25 @@ h3,
   filter: opacity(0.85);
 }
 
+/* Subtle architectural scrollbar for themed review feeds */
+.reviews-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--hairline-strong) transparent;
+}
+
+.reviews-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.reviews-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.reviews-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--hairline-strong);
+  border-radius: 999px;
+}
+
 @media (prefers-reduced-transparency: reduce) {
   .surface-glass {
     background-color: var(--surface);

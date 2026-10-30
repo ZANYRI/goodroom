@@ -142,9 +142,9 @@ export function Header() {
           </Link>
         </nav>
 
-        {/* Right: Messengers, Phone, Theme, Single Primary CTA */}
+        {/* Right: Messengers (xl+), Phone, Labeled Theme Switcher, Primary CTA */}
         <div className="hidden items-center gap-3 lg:flex">
-          <div className="flex items-center gap-1.5">
+          <div className="hidden items-center gap-1.5 xl:flex">
             <a
               href={SITE_CONFIG.telegramUrl}
               target="_blank"
@@ -196,7 +196,7 @@ export function Header() {
 
         {/* Mobile Actions & Burger */}
         <div className="flex items-center gap-2 lg:hidden">
-          <ThemeToggle />
+          <ThemeToggle compact />
 
           <button
             type="button"
@@ -295,6 +295,13 @@ export function Header() {
           </nav>
 
           <div className="mt-5 border-t border-hairline pt-5">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <span className="text-xs font-semibold text-ink-muted">
+                Тема оформления
+              </span>
+              <ThemeToggle />
+            </div>
+
             <a
               href={SITE_CONFIG.phoneHref}
               className="block font-mono text-lg font-bold text-ink tabular-nums hover:text-accent-text"

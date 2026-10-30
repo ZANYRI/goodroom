@@ -23,6 +23,7 @@ import {
   IconPlus,
   IconShieldCheck,
   IconSparkles,
+  IconStarFilled,
   IconSun,
   IconUsers,
   IconWifi,
@@ -139,4 +140,8 @@ export function ShieldIcon({ className = "h-5 w-5" }: IconProps) {
 
 export function SparklesIcon({ className = "h-5 w-5" }: IconProps) {
   return <IconSparkles className={className} stroke={1.8} aria-hidden="true" />;
+}
+
+export function StarFilledIcon({ className = "h-4 w-4" }: IconProps) {
+  return <IconStarFilled className={className} aria-hidden="true" />;
 }
